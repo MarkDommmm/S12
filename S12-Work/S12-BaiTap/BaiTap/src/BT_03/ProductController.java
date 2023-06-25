@@ -34,7 +34,6 @@ public class ProductController {
     public void displayProduct() {
         productService.displayProduct();
     }
-    public void sortProduct(String name){productService.sortProductsByPrice(name.isEmpty());}
-    public void searchProduct(boolean sort) {productService.searchProduct(String.valueOf(sort));}
+    public void searchProduct(String name) {productService.searchProduct(String.valueOf(name));}
 
 }
