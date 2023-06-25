@@ -7,6 +7,8 @@ public class ProductService {
 
     public ProductService() {
         products = new ArrayList<>();
+        products.add(new Product(1, "Chair", 1000, 10));
+        products.add(new Product(2, "Table", 999, 10));
     }
 
     public ArrayList getAll(){
@@ -52,21 +54,15 @@ public class ProductService {
     public void searchProduct(String name){
         boolean flag  = false;
         for (Product product: products) {
-            if (product.getName().equalsIgnoreCase(name)){
-                System.out.println(product);
+            if (product.getName().equals(name)){
+                System.out.println("Product Search: ");
+                product.displayData();
                 flag = true;
             }
         }
-        if (flag){
+        if (!flag){
             System.out.println("Product not found");
         }
-    }
-    public void sortProductsByPrice(boolean sort){
-        Comparator<Product> comparator = Comparator.comparingDouble(Product::getPrice);
-        if (sort){
-            comparator = comparator.reversed();
-        }
-        Collections.sort(products,comparator);
     }
     public int getNewId(){
         int maxId = 0;
@@ -75,11 +71,7 @@ public class ProductService {
                 maxId = product.getId();
             }
         }
-        maxId++;
-        for (Product product: products) {
-            product.setId(maxId);
-        }
-        return maxId;
+        return maxId+1;
     }
 
 }
