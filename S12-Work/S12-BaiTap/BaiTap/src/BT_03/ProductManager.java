@@ -1,5 +1,7 @@
 package BT_03;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class ProductManager {
@@ -33,7 +35,7 @@ public class ProductManager {
                     updateProduct();
                     break;
                 case 4:
-
+                    sortMenu();
                     break;
                 case 5:
                     searchProduct();
@@ -46,6 +48,26 @@ public class ProductManager {
         } while (choice != 6);
 
 
+    }
+
+    public static void sortMenu() {
+        while (true) {
+            System.out.println("====================SortMenu========================");
+            System.out.println("1.Gradual increase in price:");
+            System.out.println("2.Descending by price:");
+            System.out.println("3.Back:");
+            System.out.println("Chose:");
+            int choice = Config.getInteger();
+            switch (choice) {
+                case 1:
+                    sortProductByPriceUp();
+                    break;
+                case 2:
+                    sortProductByPriceDown();
+                case 3:
+                    return;
+            }
+        }
     }
 
     public static void addProduct() {
@@ -68,9 +90,7 @@ public class ProductManager {
         if (productController.getSize() == 0) {
             System.out.println("Product Not Found");
         }
-        for (Product product : productController.getAll()) {
-            product.displayData();
-        }
+        productController.displayProduct();
     }
 
     private static void updateProduct() {
@@ -92,12 +112,27 @@ public class ProductManager {
     public static void searchProduct() {
         System.out.println("Enter product name to search");
         String search = Config.getString();
-        productController.searchProduct(search.isEmpty());
+        productController.searchProduct(search);
     }
-    public static void sortProcut(){
-        System.out.println("Enter product name to sort");
-        String sort = Config.getString();
-        productController.sortProduct(sort);
+
+    public static void sortProductByPriceUp() {
+        Collections.sort(productController.getAll(), new Comparator<Product>() {
+            @Override
+            public int compare(Product o1, Product o2) {
+                return Integer.compare((int) o1.getPrice(), (int) o2.getPrice());
+            }
+        });
+        showProduct();
+    }
+
+    public static void sortProductByPriceDown() {
+        Collections.sort(productController.getAll(), new Comparator<Product>() {
+            @Override
+            public int compare(Product o1, Product o2) {
+                return Integer.compare((int) o2.getPrice(), (int) o1.getPrice());
+            }
+        });
+        showProduct();
     }
 
 }
